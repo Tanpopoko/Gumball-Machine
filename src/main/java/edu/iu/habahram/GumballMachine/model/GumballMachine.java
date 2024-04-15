@@ -35,14 +35,27 @@ public class GumballMachine implements IGumballMachine {
 
     @Override
     public TransitionResult ejectQuarter() {
-        //TODO
-        return null;
+        boolean succeeded = false;
+        String message = "There are no quarters to eject";
+        if (count == 1) {
+            count = 0;
+            state = NO_QUARTER;
+            succeeded = true;
+            message = "Quarter Ejected";
+        }
+        return new TransitionResult(succeeded, message, state, count);
     }
 
     @Override
     public TransitionResult turnCrank() {
-        //TODO
-        return null;
+        boolean succeeded = false;
+        String message = "Please insert a quarter first";
+        if (state == HAS_QUARTER) {
+            releaseBall();
+            succeeded = true;
+            message = "Quarter Cranked";
+        }
+        return new TransitionResult(succeeded, message, state, count);
     }
 
     @Override
@@ -62,7 +75,9 @@ public class GumballMachine implements IGumballMachine {
 
     @Override
     public void releaseBall() {
-
+        if (count > 0) {
+            count--;
+        }
     }
 
 
