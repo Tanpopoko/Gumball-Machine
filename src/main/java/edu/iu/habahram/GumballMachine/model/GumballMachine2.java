@@ -65,6 +65,11 @@ public class GumballMachine2 implements IGumballMachine{
     }
 
     @Override
+    public TransitionResult refill(int gumballs) {
+        return state.refill();
+    }
+
+    @Override
     public void changeTheStateTo(GumballMachineState name) {
         switch (name) {
             case NO_QUARTER -> {

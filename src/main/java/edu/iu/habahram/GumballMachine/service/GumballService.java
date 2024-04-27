@@ -5,14 +5,16 @@ import edu.iu.habahram.GumballMachine.repository.IGumballRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.lang.invoke.SwitchPoint;
 import java.util.List;
 
 @Service
-public class GumballService implements IGumballService{
+public class GumballService implements IGumballService {
+
+
+    int gumballs = 0;
 
     public enum Transition {
-        INSERT_QUARTER, EJECT_QUARTER, TURN_CRANK
+        INSERT_QUARTER, EJECT_QUARTER, TURN_CRANK, REFILL
     }
 
     IGumballRepository gumballRepository;
@@ -25,7 +27,7 @@ public class GumballService implements IGumballService{
         GumballMachineRecord record = gumballRepository.findById(id);
         IGumballMachine machine = new GumballMachine2(record.getId(), record.getState(), record.getCount());
         TransitionResult result = runTheMachine(machine, action);
-        if(result.succeeded()) {
+        if (result.succeeded()) {
             record.setState(result.stateAfter());
             record.setCount(result.countAfter());
             save(record);
@@ -43,6 +45,9 @@ public class GumballService implements IGumballService{
             }
             case TURN_CRANK -> {
                 return machine.turnCrank();
+            }
+            case REFILL -> {
+                return machine.refill(gumballs);
             }
         }
         return null;
@@ -63,6 +68,11 @@ public class GumballService implements IGumballService{
         return transit(id, Transition.TURN_CRANK);
     }
 
+    @Override
+    public TransitionResult refillGumballs(String id, int count) throws IOException {
+        gumballs = count;
+        return transit(id, Transition.REFILL);
+    }
 
 
     @Override
@@ -78,5 +88,6 @@ public class GumballService implements IGumballService{
     @Override
     public String save(GumballMachineRecord gumballMachineRecord) throws IOException {
         return gumballRepository.save(gumballMachineRecord);
+
     }
 }

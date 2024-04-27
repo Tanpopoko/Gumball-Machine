@@ -33,6 +33,14 @@ public class HasQuarterState implements IState{
         return new TransitionResult(succeeded, message, gumballMachine.getTheStateName(), gumballMachine.getCount());
 
     }
+
+    @Override
+    public TransitionResult refill() {
+        String message = "Not empty";
+        boolean succeeded = false;
+        return new TransitionResult(succeeded, message, gumballMachine.getTheStateName(), gumballMachine.getCount());
+
+    }
     @Override
     public String getTheName() {
         return GumballMachineState.HAS_QUARTER.name();

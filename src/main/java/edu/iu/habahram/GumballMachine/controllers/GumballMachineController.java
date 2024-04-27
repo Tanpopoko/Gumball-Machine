@@ -55,6 +55,16 @@ public class GumballMachineController {
         }
     }
 
+    @PutMapping("/refill")
+    public TransitionResult refillGumballs(@RequestBody TransitionRequest transitionRequest,
+                                            @RequestParam int gumballs) {
+        try {
+            return gumballService.refillGumballs(transitionRequest.id(), gumballs);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PutMapping("/turn-crank")
     public TransitionResult turnCrank(@RequestBody TransitionRequest transitionRequest) {
         try {

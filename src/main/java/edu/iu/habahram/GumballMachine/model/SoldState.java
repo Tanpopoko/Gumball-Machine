@@ -33,6 +33,13 @@ public class SoldState implements IState{
 
     }
     @Override
+    public TransitionResult refill() {
+        String message = "Not empty";
+        boolean succeeded = false;
+        return new TransitionResult(succeeded, message, gumballMachine.getTheStateName(), gumballMachine.getCount());
+
+    }
+    @Override
     public String getTheName() {
         return GumballMachineState.GUMBALL_SOLD.name();
     }

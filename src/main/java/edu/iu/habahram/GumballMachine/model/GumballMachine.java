@@ -59,6 +59,14 @@ public class GumballMachine implements IGumballMachine {
     }
 
     @Override
+    public TransitionResult refill(int gumballs) {
+        count += gumballs;
+        boolean succeeded = true;
+        String message = gumballs + " gumballs Added";
+        return new TransitionResult(succeeded, message, state, count);
+    }
+
+    @Override
     public void changeTheStateTo(GumballMachineState name) {
 
     }
